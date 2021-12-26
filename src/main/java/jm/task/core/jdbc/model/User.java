@@ -1,26 +1,27 @@
 package jm.task.core.jdbc.model;
-
-import jm.task.core.jdbc.util.Util;
-
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
-@Table
+@Entity
+@Table(name = "Users" )
 public class User {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "lastname")
     private String lastName;
 
-    @Column
+    @Column(name = "age")
     private Byte age;
 
     @Override
