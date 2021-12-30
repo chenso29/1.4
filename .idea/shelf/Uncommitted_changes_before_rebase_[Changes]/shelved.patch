@@ -1,0 +1,658 @@
+Index: src/main/java/jm/task/core/jdbc/model/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jm.task.core.jdbc.model;\r\n\r\nimport jm.task.core.jdbc.util.Util;\r\n\r\nimport javax.persistence.Column;\r\nimport javax.persistence.Id;\r\nimport javax.persistence.Table;\r\nimport java.sql.Connection;\r\nimport java.sql.SQLException;\r\nimport java.sql.Statement;\r\n\r\n@Table\r\npublic class User {\r\n    @Id\r\n    private Long id;\r\n\r\n    @Column\r\n    private String name;\r\n\r\n    @Column\r\n    private String lastName;\r\n\r\n    @Column\r\n    private Byte age;\r\n\r\n    @Override\r\n    public String toString() {\r\n                return \"User {\" +\r\n                \"name ='\" + name + '\\'' +\r\n                \", lastName ='\" + lastName + '\\'' +\r\n                \", age =\" + age +\r\n                '}';\r\n    }\r\n\r\n    public User() {\r\n\r\n    }\r\n\r\n    public User(String name, String lastName, Byte age) {\r\n        this.name = name;\r\n        this.lastName = lastName;\r\n        this.age = age;\r\n    }\r\n\r\n    public Long getId() {\r\n        return id;\r\n    }\r\n\r\n    public void setId(Long id) {\r\n        this.id = id;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public void setName(String name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public String getLastName() {\r\n        return lastName;\r\n    }\r\n\r\n    public void setLastName(String lastName) {\r\n        this.lastName = lastName;\r\n    }\r\n\r\n    public Byte getAge() {\r\n        return age;\r\n    }\r\n\r\n    public void setAge(Byte age) {\r\n        this.age = age;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/jm/task/core/jdbc/model/User.java b/src/main/java/jm/task/core/jdbc/model/User.java
+--- a/src/main/java/jm/task/core/jdbc/model/User.java	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/src/main/java/jm/task/core/jdbc/model/User.java	(date 1640443930028)
+@@ -1,26 +1,27 @@
+ package jm.task.core.jdbc.model;
+-
+-import jm.task.core.jdbc.util.Util;
+-
+ import javax.persistence.Column;
++import javax.persistence.Entity;
++import javax.persistence.GeneratedValue;
++import javax.persistence.GenerationType;
+ import javax.persistence.Id;
+ import javax.persistence.Table;
+-import java.sql.Connection;
+-import java.sql.SQLException;
+-import java.sql.Statement;
+ 
+-@Table
++@Entity
++@Table(name = "Users" )
+ public class User {
++
+     @Id
++    @GeneratedValue(strategy = GenerationType.IDENTITY)
++    @Column(name = "id")
+     private Long id;
+ 
+-    @Column
++    @Column(name = "name")
+     private String name;
+ 
+-    @Column
++    @Column(name = "lastname")
+     private String lastName;
+ 
+-    @Column
++    @Column(name = "age")
+     private Byte age;
+ 
+     @Override
+Index: src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jm.task.core.jdbc.service;\r\n\r\nimport jm.task.core.jdbc.dao.UserDaoJDBCImpl;\r\nimport jm.task.core.jdbc.model.User;\r\n\r\nimport java.sql.SQLException;\r\n\r\nimport java.util.List;\r\n\r\npublic class UserServiceImpl implements UserService {\r\n\r\n    public void createUsersTable() {\r\n        try {\r\n            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();\r\n            dao.createUsersTable();\r\n        } catch (SQLException | ClassNotFoundException e) {\r\n            e.printStackTrace();\r\n        }\r\n\r\n    }\r\n\r\n    public void dropUsersTable() {\r\n        try {\r\n            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();\r\n            dao.dropUsersTable();\r\n        } catch (SQLException | ClassNotFoundException e) {\r\n            e.printStackTrace();\r\n        }\r\n\r\n    }\r\n\r\n    public void saveUser(String name, String lastName, byte age) {\r\n        try {\r\n            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();\r\n            dao.saveUser(name , lastName , age);\r\n        } catch (SQLException | ClassNotFoundException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    public void removeUserById(long id) {\r\n        try {\r\n            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();\r\n            dao.removeUserById(id);\r\n        } catch (SQLException | ClassNotFoundException e) {\r\n            e.printStackTrace();\r\n        }\r\n\r\n    }\r\n\r\n    public List<User> getAllUsers() {\r\n\r\n            List<User> users;\r\n        UserDaoJDBCImpl dao = null;\r\n        try {\r\n            dao = new UserDaoJDBCImpl();\r\n        } catch (SQLException | ClassNotFoundException e) {\r\n            e.printStackTrace();\r\n        }\r\n        users = dao.getAllUsers();\r\n\r\n        return users;\r\n    }\r\n\r\n    public void cleanUsersTable() {\r\n        try {\r\n            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();\r\n            dao.cleanUsersTable();\r\n        } catch (SQLException | ClassNotFoundException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java b/src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java
+--- a/src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java	(date 1640443419326)
+@@ -1,5 +1,6 @@
+ package jm.task.core.jdbc.service;
+ 
++import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+ import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+ import jm.task.core.jdbc.model.User;
+ 
+@@ -8,66 +9,33 @@
+ import java.util.List;
+ 
+ public class UserServiceImpl implements UserService {
++    UserDaoHibernateImpl dao = new UserDaoHibernateImpl();
+ 
+     public void createUsersTable() {
+-        try {
+-            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
+-            dao.createUsersTable();
+-        } catch (SQLException | ClassNotFoundException e) {
+-            e.printStackTrace();
+-        }
+-
++        dao.createUsersTable();
+     }
+ 
+     public void dropUsersTable() {
+-        try {
+-            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
+-            dao.dropUsersTable();
+-        } catch (SQLException | ClassNotFoundException e) {
+-            e.printStackTrace();
+-        }
+-
++        dao.dropUsersTable();
+     }
+ 
+     public void saveUser(String name, String lastName, byte age) {
+-        try {
+-            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
+-            dao.saveUser(name , lastName , age);
+-        } catch (SQLException | ClassNotFoundException e) {
+-            e.printStackTrace();
+-        }
++        dao.saveUser(name, lastName, age);
++
+     }
+ 
+     public void removeUserById(long id) {
+-        try {
+-            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
+-            dao.removeUserById(id);
+-        } catch (SQLException | ClassNotFoundException e) {
+-            e.printStackTrace();
+-        }
+-
++        dao.removeUserById(id);
+     }
+ 
+     public List<User> getAllUsers() {
+-
+-            List<User> users;
+-        UserDaoJDBCImpl dao = null;
+-        try {
+-            dao = new UserDaoJDBCImpl();
+-        } catch (SQLException | ClassNotFoundException e) {
+-            e.printStackTrace();
+-        }
++        List<User> users;
+         users = dao.getAllUsers();
+-
+         return users;
+     }
+ 
+     public void cleanUsersTable() {
+-        try {
+-            UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
+-            dao.cleanUsersTable();
+-        } catch (SQLException | ClassNotFoundException e) {
+-            e.printStackTrace();
+-        }
++        dao.cleanUsersTable();
++
+     }
+ }
+Index: src/main/java/jm/task/core/jdbc/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jm.task.core.jdbc;\r\n\r\nimport jm.task.core.jdbc.dao.UserDaoJDBCImpl;\r\n\r\nimport java.sql.SQLException;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) throws SQLException, ClassNotFoundException {\r\n        UserDaoJDBCImpl dao = new UserDaoJDBCImpl();\r\n        dao.createUsersTable();\r\n        dao.saveUser(\"Dmitriy\", \"An\" , (byte) 27);\r\n        dao.saveUser(\"Anna\", \"Pak\" , (byte) 27);\r\n        dao.saveUser(\"Elena\", \"Tsoy\" , (byte) 47);\r\n        dao.saveUser(\"Sofia\", \"An\" , (byte) 1);\r\n        System.out.println(dao.getAllUsers());\r\n        dao.cleanUsersTable();\r\n        dao.dropUsersTable();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/jm/task/core/jdbc/Main.java b/src/main/java/jm/task/core/jdbc/Main.java
+--- a/src/main/java/jm/task/core/jdbc/Main.java	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/src/main/java/jm/task/core/jdbc/Main.java	(date 1640444642075)
+@@ -1,12 +1,12 @@
+ package jm.task.core.jdbc;
+ 
+-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
++import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+ 
+ import java.sql.SQLException;
+ 
+ public class Main {
+     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+-        UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
++        UserDaoHibernateImpl dao = new UserDaoHibernateImpl();
+         dao.createUsersTable();
+         dao.saveUser("Dmitriy", "An" , (byte) 27);
+         dao.saveUser("Anna", "Pak" , (byte) 27);
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <groupId>org.example</groupId>\r\n    <artifactId>TaskJDBC</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n    <build>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.apache.maven.plugins</groupId>\r\n                <artifactId>maven-compiler-plugin</artifactId>\r\n                <version>3.8.0</version>\r\n                <configuration>\r\n                    <source>8</source>\r\n                    <target>8</target>\r\n                </configuration>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n\r\n    <dependencies>\r\n<!--         Ваши зависимости-->\r\n         <!-- https://mvnrepository.com/artifact/junit/junit -->\r\n         <dependency>\r\n             <groupId>junit</groupId>\r\n             <artifactId>junit</artifactId>\r\n             <version>4.12</version>\r\n             <scope>test</scope>\r\n         </dependency>\r\n\r\n        <dependency>\r\n            <groupId>mysql</groupId>\r\n            <artifactId>mysql-connector-java</artifactId>\r\n            <version>8.0.27</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.hibernate.javax.persistence</groupId>\r\n            <artifactId>hibernate-jpa-2.1-api</artifactId>\r\n            <version>1.0.2.Final</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.hibernate</groupId>\r\n            <artifactId>hibernate-core</artifactId>\r\n            <version>4.3.10.Final</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.apache.maven.plugins</groupId>\r\n            <artifactId>maven-compiler-plugin</artifactId>\r\n            <version>3.8.1</version>\r\n        </dependency>\r\n     </dependencies>\r\n\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/pom.xml	(date 1640443582062)
+@@ -14,8 +14,8 @@
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>3.8.0</version>
+                 <configuration>
+-                    <source>8</source>
+-                    <target>8</target>
++                    <source>9</source>
++                    <target>9</target>
+                 </configuration>
+             </plugin>
+         </plugins>
+@@ -43,12 +43,14 @@
+             <version>1.0.2.Final</version>
+         </dependency>
+ 
++        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+         <dependency>
+             <groupId>org.hibernate</groupId>
+             <artifactId>hibernate-core</artifactId>
+-            <version>4.3.10.Final</version>
++            <version>5.6.3.Final</version>
+         </dependency>
+ 
++
+         <dependency>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-compiler-plugin</artifactId>
+Index: src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jm.task.core.jdbc.dao;\r\n\r\nimport jm.task.core.jdbc.model.User;\r\n\r\nimport java.util.List;\r\n\r\npublic class UserDaoHibernateImpl implements UserDao {\r\n    public UserDaoHibernateImpl() {\r\n\r\n    }\r\n\r\n\r\n    @Override\r\n    public void createUsersTable() {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void dropUsersTable() {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void saveUser(String name, String lastName, byte age) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void removeUserById(long id) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public List<User> getAllUsers() {\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public void cleanUsersTable() {\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java b/src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java
+--- a/src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java	(date 1640444545008)
+@@ -1,42 +1,76 @@
+ package jm.task.core.jdbc.dao;
+-
+ import jm.task.core.jdbc.model.User;
+-
++import org.hibernate.Session;
++import org.hibernate.Transaction;
+ import java.util.List;
++import static jm.task.core.jdbc.util.Util.getSessionFactory;
+ 
+ public class UserDaoHibernateImpl implements UserDao {
+     public UserDaoHibernateImpl() {
+-
+     }
+-
+-
+     @Override
+     public void createUsersTable() {
++        String sql = "CREATE TABLE IF NOT EXISTS users " +
++                "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
++                "name VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " +
++                "age TINYINT NOT NULL)";
++        try (Session session = getSessionFactory().openSession()) {
++            Transaction transaction = session.beginTransaction();
++            session.createSQLQuery(sql).addEntity(User.class);
++            transaction.commit();
++            session.close();
++            System.out.println("Таблица создана");
++        }
++    }
+ 
+-    }
+ 
+     @Override
+     public void dropUsersTable() {
+-
++        try (Session session = getSessionFactory().openSession()) {
++            Transaction transaction = session.beginTransaction();
++            String sql = "DROP TABLE IF EXISTS users";
++            session.createSQLQuery(sql).addEntity(User.class);
++            transaction.commit();
++            System.out.println("Таблица удалена");
++        }
+     }
+ 
+     @Override
+     public void saveUser(String name, String lastName, byte age) {
+-
++        User user = new User(name, lastName, age);
++        try (Session session = getSessionFactory().openSession()) {
++            session.beginTransaction();
++            session.save(user);
++            session.getTransaction().commit();
++            System.out.println("User " + name + " добавлен в таблицу");
++        }
+     }
+ 
+     @Override
+     public void removeUserById(long id) {
+-
++        try (Session session = getSessionFactory().openSession()) {
++            session.beginTransaction();
++            User user = session.get(User.class, id);
++            session.delete(user);
++            session.getTransaction().commit();
++            System.out.println("User " + user.getName() + " удален из таблицы");
++        }
+     }
+ 
+     @Override
+     public List<User> getAllUsers() {
+-        return null;
++        try (Session session = getSessionFactory().openSession()) {
++            return session.createQuery("from User ", User.class).list();
++        }
+     }
+ 
+     @Override
+     public void cleanUsersTable() {
+-
++        try (Session session = getSessionFactory().openSession()) {
++            session.beginTransaction();
++            session.createQuery("delete User").executeUpdate();
++            session.getTransaction().commit();
++            System.out.println("Таблицы очищена");
++        }
+     }
+ }
+Index: src/main/java/jm/task/core/jdbc/util/Util.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jm.task.core.jdbc.util;\r\n\r\n\r\nimport java.sql.Connection;\r\nimport java.sql.DriverManager;\r\nimport java.sql.SQLException;\r\n\r\n\r\npublic class Util {\r\n    private static final String URL = \"jdbc:mysql://127.0.0.1:3306/mydb\";\r\n    private static final String LOGIN = \"root\";\r\n    private static final String PASSWORD = \"root\";\r\n\r\npublic static Connection connectDB() throws SQLException, ClassNotFoundException {\r\n    Class.forName(\"com.mysql.cj.jdbc.Driver\");\r\n    Connection connection = DriverManager.getConnection(URL , LOGIN, PASSWORD);\r\n    return connection;\r\n}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/jm/task/core/jdbc/util/Util.java b/src/main/java/jm/task/core/jdbc/util/Util.java
+--- a/src/main/java/jm/task/core/jdbc/util/Util.java	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/src/main/java/jm/task/core/jdbc/util/Util.java	(date 1640442529058)
+@@ -1,15 +1,50 @@
+ package jm.task.core.jdbc.util;
+ 
+ 
++
++import jm.task.core.jdbc.model.User;
++import org.hibernate.SessionFactory;
++import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
++import org.hibernate.cfg.Configuration;
++import org.hibernate.cfg.Environment;
++import org.hibernate.service.ServiceRegistry;
+ import java.sql.Connection;
+ import java.sql.DriverManager;
+ import java.sql.SQLException;
++import java.util.Properties;
+ 
+ 
+ public class Util {
+     private static final String URL = "jdbc:mysql://127.0.0.1:3306/mydb";
+     private static final String LOGIN = "root";
+     private static final String PASSWORD = "root";
++    private static SessionFactory sessionFactory;
++
++    public static SessionFactory getSessionFactory() {
++        if (sessionFactory == null) {
++            try {
++                Configuration configuration = new Configuration();
++
++                // Hibernate settings equivalent to hibernate.cfg.xml's properties
++                Properties settings = new Properties();
++                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
++                settings.put(Environment.URL, "jdbc:mysql://127.0.0.1:3306/mydb?useSSL=false");
++                settings.put(Environment.USER, "root");
++                settings.put(Environment.PASS, "root");
++                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
++                settings.put(Environment.SHOW_SQL, "true");
++                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
++                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
++                configuration.setProperties(settings);
++                configuration.addAnnotatedClass(User.class);
++                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
++                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
++            } catch (Exception e) {
++                e.printStackTrace();
++            }
++        }
++        return sessionFactory;
++    }
+ 
+ public static Connection connectDB() throws SQLException, ClassNotFoundException {
+     Class.forName("com.mysql.cj.jdbc.Driver");
+Index: .idea/libraries/Maven__org_hibernate_hibernate_core_4_3_10_Final.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_hibernate_hibernate_core_4_3_10_Final.xml b/.idea/libraries/Maven__org_hibernate_hibernate_core_4_3_10_Final.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_hibernate_hibernate_core_4_3_10_Final.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.hibernate:hibernate-core:4.3.10.Final">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/4.3.10.Final/hibernate-core-4.3.10.Final.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/4.3.10.Final/hibernate-core-4.3.10.Final-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/4.3.10.Final/hibernate-core-4.3.10.Final-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_0_Final.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_0_Final.xml b/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_0_Final.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_0_Final.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.0.Final">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.0.0.Final/jboss-transaction-api_1.2_spec-1.0.0.Final.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.0.0.Final/jboss-transaction-api_1.2_spec-1.0.0.Final-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.0.0.Final/jboss-transaction-api_1.2_spec-1.0.0.Final-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__org_javassist_javassist_3_18_1_GA.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_javassist_javassist_3_18_1_GA.xml b/.idea/libraries/Maven__org_javassist_javassist_3_18_1_GA.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_javassist_javassist_3_18_1_GA.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.javassist:javassist:3.18.1-GA">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/javassist/javassist/3.18.1-GA/javassist-3.18.1-GA.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/javassist/javassist/3.18.1-GA/javassist-3.18.1-GA-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/javassist/javassist/3.18.1-GA/javassist-3.18.1-GA-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__dom4j_dom4j_1_6_1.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml b/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: dom4j:dom4j:1.6.1">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/dom4j/dom4j/1.6.1/dom4j-1.6.1-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/dom4j/dom4j/1.6.1/dom4j-1.6.1-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__org_jboss_jandex_1_1_0_Final.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_jboss_jandex_1_1_0_Final.xml b/.idea/libraries/Maven__org_jboss_jandex_1_1_0_Final.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_jboss_jandex_1_1_0_Final.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.jboss:jandex:1.1.0.Final">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/jandex/1.1.0.Final/jandex-1.1.0.Final.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/jandex/1.1.0.Final/jandex-1.1.0.Final-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/jandex/1.1.0.Final/jandex-1.1.0.Final-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml b/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: xml-apis:xml-apis:1.0.b2">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_5_Final.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_5_Final.xml b/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_5_Final.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_5_Final.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.hibernate.common:hibernate-commons-annotations:4.0.5.Final">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/common/hibernate-commons-annotations/4.0.5.Final/hibernate-commons-annotations-4.0.5.Final.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/common/hibernate-commons-annotations/4.0.5.Final/hibernate-commons-annotations-4.0.5.Final-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/common/hibernate-commons-annotations/4.0.5.Final/hibernate-commons-annotations-4.0.5.Final-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_1_2_0_Beta1.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_1_2_0_Beta1.xml b/.idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_1_2_0_Beta1.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_1_2_0_Beta1.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.jboss.logging:jboss-logging-annotations:1.2.0.Beta1">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging-annotations/1.2.0.Beta1/jboss-logging-annotations-1.2.0.Beta1.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging-annotations/1.2.0.Beta1/jboss-logging-annotations-1.2.0.Beta1-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging-annotations/1.2.0.Beta1/jboss-logging-annotations-1.2.0.Beta1-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_3_GA.xml
+===================================================================
+diff --git a/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_3_GA.xml b/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_3_GA.xml
+deleted file mode 100644
+--- a/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_3_GA.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ /dev/null	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
+@@ -1,13 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Maven: org.jboss.logging:jboss-logging:3.1.3.GA">
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging/3.1.3.GA/jboss-logging-3.1.3.GA.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging/3.1.3.GA/jboss-logging-3.1.3.GA-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging/3.1.3.GA/jboss-logging-3.1.3.GA-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"TaskJDBC\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n    <bytecodeTargetLevel>\r\n      <module name=\"TaskJDBC\" target=\"8\" />\r\n    </bytecodeTargetLevel>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/.idea/compiler.xml	(date 1640429306251)
+@@ -11,7 +11,7 @@
+       </profile>
+     </annotationProcessing>
+     <bytecodeTargetLevel>
+-      <module name="TaskJDBC" target="8" />
++      <module name="TaskJDBC" target="9" />
+     </bytecodeTargetLevel>
+   </component>
+ </project>
+\ No newline at end of file
+Index: TaskJDBC.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule=\"true\" type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" LANGUAGE_LEVEL=\"JDK_1_8\">\r\n    <output url=\"file://$MODULE_DIR$/target/classes\" />\r\n    <output-test url=\"file://$MODULE_DIR$/target/test-classes\" />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src/main/java\" isTestSource=\"false\" />\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src/test/java\" isTestSource=\"true\" />\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src/test/resources\" type=\"java-test-resource\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/target\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" scope=\"TEST\" name=\"Maven: junit:junit:4.12\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"TEST\" name=\"Maven: org.hamcrest:hamcrest-core:1.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: mysql:mysql-connector-java:8.0.27\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: com.google.protobuf:protobuf-java:3.11.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.hibernate:hibernate-core:4.3.10.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.jboss.logging:jboss-logging:3.1.3.GA\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.jboss.logging:jboss-logging-annotations:1.2.0.Beta1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.0.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: dom4j:dom4j:1.6.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: xml-apis:xml-apis:1.0.b2\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.hibernate.common:hibernate-commons-annotations:4.0.5.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.javassist:javassist:3.18.1-GA\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: antlr:antlr:2.7.7\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.jboss:jandex:1.1.0.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven.plugins:maven-compiler-plugin:3.8.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-plugin-api:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-model:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.sisu:sisu-inject-plexus:1.4.2\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.sisu:sisu-inject-bean:1.4.2\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.sisu:sisu-guice:noaop:2.1.7\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-artifact:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-utils:2.0.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-core:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-settings:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-settings-builder:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-repository-metadata:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven:maven-model-builder:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Maven: org.apache.maven:maven-aether-provider:3.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.aether:aether-impl:1.7\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.aether:aether-spi:1.7\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.aether:aether-api:1.7\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.aether:aether-util:1.7\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-interpolation:1.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-classworlds:2.2.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-component-annotations:1.5.5\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.plexus:plexus-sec-dispatcher:1.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.sonatype.plexus:plexus-cipher:1.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven.shared:maven-shared-utils:3.2.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: commons-io:commons-io:2.5\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.apache.maven.shared:maven-shared-incremental:1.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-java:0.9.10\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.ow2.asm:asm:6.2\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: com.thoughtworks.qdox:qdox:2.0-M8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-compiler-api:2.8.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Maven: org.codehaus.plexus:plexus-compiler-manager:2.8.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Maven: org.codehaus.plexus:plexus-compiler-javac:2.8.4\" level=\"project\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TaskJDBC.iml b/TaskJDBC.iml
+--- a/TaskJDBC.iml	(revision 55f478c6a60e73425aa1e33235996b4e1c3e9fcd)
++++ b/TaskJDBC.iml	(date 1640443670116)
+@@ -1,6 +1,29 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
++  <component name="FacetManager">
++    <facet type="hibernate" name="Hibernate">
++      <configuration>
++        <datasource-map>
++          <unit-entry name="hibernate.cfg.xml" value="c3635a72-d4d4-47ba-b380-b8eeb8455441" />
++        </datasource-map>
++        <naming-strategy-map>
++          <unit-entry name="hibernate.cfg.xml" />
++        </naming-strategy-map>
++        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/test/java/hibernate.cfg.xml" />
++      </configuration>
++    </facet>
++    <facet type="jpa" name="JPA">
++      <configuration>
++        <setting name="validation-enabled" value="true" />
++        <setting name="provider-name" value="Hibernate" />
++        <datasource-mapping>
++          <factory-entry name="TaskJDBC" value="c3635a72-d4d4-47ba-b380-b8eeb8455441" />
++        </datasource-mapping>
++        <naming-strategy-map />
++      </configuration>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_9">
+     <output url="file://$MODULE_DIR$/target/classes" />
+     <output-test url="file://$MODULE_DIR$/target/test-classes" />
+     <content url="file://$MODULE_DIR$">
+@@ -11,21 +34,36 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="module-library">
++      <library>
++        <CLASSES>
++          <root url="jar://$USER_HOME$/Desktop/mysql-connector-java-8.0.27/mysql-connector-java-8.0.27/mysql-connector-java-8.0.27.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
+     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
+     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
+     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.27" level="project" />
+     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
+     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final" level="project" />
+-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:4.3.10.Final" level="project" />
+-    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.1.3.GA" level="project" />
+-    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging-annotations:1.2.0.Beta1" level="project" />
+-    <orderEntry type="library" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.0.Final" level="project" />
+-    <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+-    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+-    <orderEntry type="library" name="Maven: org.hibernate.common:hibernate-commons-annotations:4.0.5.Final" level="project" />
+-    <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
++    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:5.6.3.Final" level="project" />
++    <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.4.2.Final" level="project" />
++    <orderEntry type="library" name="Maven: javax.persistence:javax.persistence-api:2.2" level="project" />
++    <orderEntry type="library" name="Maven: net.bytebuddy:byte-buddy:1.11.20" level="project" />
+     <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
+-    <orderEntry type="library" name="Maven: org.jboss:jandex:1.1.0.Final" level="project" />
++    <orderEntry type="library" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.1.1.Final" level="project" />
++    <orderEntry type="library" name="Maven: org.jboss:jandex:2.2.3.Final" level="project" />
++    <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.5.1" level="project" />
++    <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
++    <orderEntry type="library" name="Maven: org.hibernate.common:hibernate-commons-annotations:5.1.2.Final" level="project" />
++    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.3.1" level="project" />
++    <orderEntry type="library" name="Maven: org.glassfish.jaxb:jaxb-runtime:2.3.1" level="project" />
++    <orderEntry type="library" name="Maven: org.glassfish.jaxb:txw2:2.3.1" level="project" />
++    <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" level="project" />
++    <orderEntry type="library" name="Maven: org.jvnet.staxex:stax-ex:1.8" level="project" />
++    <orderEntry type="library" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" level="project" />
+     <orderEntry type="library" name="Maven: org.apache.maven.plugins:maven-compiler-plugin:3.8.1" level="project" />
+     <orderEntry type="library" name="Maven: org.apache.maven:maven-plugin-api:3.0" level="project" />
+     <orderEntry type="library" name="Maven: org.apache.maven:maven-model:3.0" level="project" />

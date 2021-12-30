@@ -1,12 +1,12 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDaoHibernateImpl dao = new UserDaoHibernateImpl();
+        UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
         dao.createUsersTable();
         dao.saveUser("Dmitriy", "An" , (byte) 27);
         dao.saveUser("Anna", "Pak" , (byte) 27);
