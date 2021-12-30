@@ -1,13 +1,13 @@
 package jm.task.core.jdbc.util;
 
 
-
 import jm.task.core.jdbc.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,11 +24,9 @@ public class Util {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-
-                // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://127.0.0.1:3306/mydb?useSSL=false");
+                settings.put(Environment.URL, URL);
                 settings.put(Environment.USER, "root");
                 settings.put(Environment.PASS, "root");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
@@ -46,9 +44,9 @@ public class Util {
         return sessionFactory;
     }
 
-public static Connection connectDB() throws SQLException, ClassNotFoundException {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    Connection connection = DriverManager.getConnection(URL , LOGIN, PASSWORD);
-    return connection;
-}
+    public static Connection connectDB() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        return connection;
+    }
 }
