@@ -15,8 +15,10 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try (Connection connection = Util.connectDB();
              Statement statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE IF NOT EXISTS Users (id INT AUTO_INCREMENT , name VARCHAR(45) ,lastname VARCHAR(45) ,age INT,PRIMARY KEY (id))");
-        } catch (ClassNotFoundException | SQLException e) {
+            statement.execute("CREATE TABLE Users (id INT AUTO_INCREMENT , name VARCHAR(45) ,lastname VARCHAR(45) ,age INT,PRIMARY KEY (id))");
+        } catch (SQLException sqle) {
+            dropUsersTable();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -24,7 +26,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Connection connection = Util.connectDB();
              Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE IF EXISTS Users");
+            statement.executeUpdate("DROP TABLE Users");
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
